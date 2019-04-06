@@ -29,9 +29,13 @@ Options:
 - Set -v for verbose training information
 
 ```
-python3 main.py -v 
+Example:
 
-python3 main.py 
+Verbose training information and default layer-dimensions [784, 128, 10]
+- python3 main.py -v 
+
+Verbose training information and choosen layer-dimensions [784, 128, 64, 32, 10]
+- python3 main.py -v -l 784,128,64,32,10
 ```
 
 
