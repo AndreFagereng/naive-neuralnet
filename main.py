@@ -5,14 +5,32 @@ from matplotlib import pyplot as plt
 
 from optparse import OptionParser
 
+import sys
+
 parser = OptionParser()
 
 parser.add_option('-v','--verbose', dest='verbose', action='store_true', help='Show verbose training-text', default=False)
+parser.add_option('-l', '--layerdimension', dest='layerdimension', help='Set the layer-dimensions for the neural network')
 (options, args) = parser.parse_args()
 
 
+if options.layerdimension:
+	try:
+
+		dims = [int(x) for x in options.layerdimension.split(',')]
+		
+		if dims[-1] != 10:
+			print('Output-layer must be 10')
+			sys.exit()
+
+	except Exception as e:
+		print('Only numerics are legal')
+		print(e)
+else:
+	dims = [784,128,10]
+
 conf = {
-	'layer_dimensions': [784,128,10],
+	'layer_dimensions': dims,
 	'learning_rate'   : 0.01,
 	'epochs'		  : 10,
 	'batch_size'	  : 128,
