@@ -30,15 +30,24 @@ Running the solution to download and train the neural network.
 Options: 
 - Set the layer dimensions for the neural network
 - Set -v for verbose training information
-
+- Set -g for accuracy/loss graphs after training
+- Set -b for batch-size
+- Set -r for learning rate
+- Set -e for epochs
 ```
+Default values
+
+Dimensions:    [784,128,10]
+Learning rate: 0.01
+Batch-size:    128
+Epochs:        100
+
 Example:
 
-Verbose training information and default layer-dimensions [784, 128, 10]
-- python3 main.py -v 
+- python3 main.py -v -g 
 
-Verbose training information and choosen layer-dimensions [784, 128, 64, 32, 10]
-- python3 main.py -v -l 784,128,64,32,10
+- python3 main.py -v -g -l 784,128,64,32,10 -b 64 -r 0.1 -e 1000 
+
 ```
 
 
