@@ -101,9 +101,9 @@ for i in range(conf['epochs']):
 		print('-'*50)
 		print(f'Epoch: {i}\n')
 		print(f'Train loss: {round(loss, 2)}')
-		print(f'Train accuracy: {round((total_correct_train/len(X))*100, 2)}\n')
+		print(f'Train accuracy: {round((total_correct_train/len(X))*100, 2)}%\n')
 		print(f'Test loss: {round(loss_test, 2)}')
-		print(f'Train accuracy: {round(total_correct_test/len(X_test)*100, 2)}\n')
+		print(f'Train accuracy: {round(total_correct_test/len(X_test)*100, 2)}%\n')
 	else:
 		print(f'Epoch: {i}')
 
