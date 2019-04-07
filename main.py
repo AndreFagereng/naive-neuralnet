@@ -81,11 +81,11 @@ for i in range(conf['epochs']):
 
 	for j in range(1,b):
 		
-		X_batch = X[(j-1)*conf['batch_size']:(j)*conf['batch_size'], :] 
+		X_batch = X[(j-1)*conf['batch_size']:(j)*conf['batch_size'], :].T 
 		y_batch = y[:, (j-1)*conf['batch_size']:(j)*conf['batch_size']]
 
 		predictions, activations = model.forward_pass(X_batch, is_training=True)
-
+		
 		loss, batch_correct = model.cross_entropy_cost(predictions, y_batch)
 
 		gradients = model.backward_pass(conf, predictions, y_batch, activations)
@@ -98,7 +98,7 @@ for i in range(conf['epochs']):
 
 		total_correct_train += batch_correct
 
-	predictions, activations = model.forward_pass(X_test, is_training=False)
+	predictions, activations = model.forward_pass(X_test.T, is_training=False)
 	loss_test, total_correct_test  = model.cross_entropy_cost(predictions, y_test)
 	
 	accuracy_train.append(round((total_correct_train/len(X))*100, 2))

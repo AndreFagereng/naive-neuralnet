@@ -68,7 +68,8 @@ class net:
 
 	def forward_pass(self, X_batch, is_training=False, activation_function='relu'):
 	
-		prev_A = X_batch.T
+		prev_A = X_batch
+
 		l = len(self.dimensions)
 		
 		activations = {'A_0':X_batch}
@@ -109,19 +110,18 @@ class net:
 		# Biases
 		grad_params['grad_b_'+str(l-1)] = (np.dot(jZ_L, np.ones((m,1)))/m)
 
-		#for key,val in activations.items():
-		#	print(key,': ',val.shape)
-		#print('l:' , l)
 		for i in range(l-1, 1, -1):
 
 			# Weights
 			g_z  = self.activation_derivative(activations['Z_'+str(i-1)], conf['activation_function']) 
-			
+			#print('Z', 'Z_'+str(i-1))
+			#print('W', 'W'+str(i))
+			#print('A', 'A_' + str(i-2))
 			tmp = np.dot(self.weights['W'+str(i)], jZ_L)
 
 			jZ_L = g_z * tmp
-        	
-			d_w  = np.dot(activations['A_' + str(i-2)].T, jZ_L.T)
+			
+			d_w  = np.dot(activations['A_' + str(i-2)], jZ_L.T)
 			d_w = d_w/m
 
 			grad_params['grad_W_'+str(i-1)] = d_w
