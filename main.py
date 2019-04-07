@@ -7,10 +7,15 @@ from optparse import OptionParser
 
 import sys
 
-parser = OptionParser()
+desc = '''Example -> \'main.py -g -v -l 784,128,32,10 -r 0.1 -b 64\''''
+parser = OptionParser(description = desc)
 
 parser.add_option('-v','--verbose', dest='verbose', action='store_true', help='Show verbose training-text', default=False)
 parser.add_option('-l', '--layerdimension', dest='layerdimension', help='Set the layer-dimensions for the neural network')
+parser.add_option('-g', '--graph', dest='graph', action='store_true',help='Show the accuracy/loss graph after training', default=False)
+parser.add_option('-e', '--epoch', dest='epoch', help='Set the numbers of training epochs, default 100', default=100)
+parser.add_option('-r', '--learningrate', dest='learningrate', help='Set the learning rate for training', default=0.01)
+parser.add_option('-b', '--batchsize', dest='batchsize', help='Set the batch-size for training data', default=128)
 (options, args) = parser.parse_args()
 
 
@@ -19,7 +24,8 @@ if options.layerdimension:
 
 		dims = [int(x) for x in options.layerdimension.split(',')]
 		
-		if dims[-1] != 10:
+		if dims[-1] != 10 or dims[0] != 784:
+			print('Input-layer must be 784')
 			print('Output-layer must be 10')
 			sys.exit()
 
@@ -31,11 +37,13 @@ else:
 
 conf = {
 	'layer_dimensions': dims,
-	'learning_rate'   : 0.01,
-	'epochs'		  : 10,
-	'batch_size'	  : 128,
+	'learning_rate'   : float(options.learningrate),
+	'epochs'		  : int(options.epoch),
+	'batch_size'	  : int(options.batchsize),
 	'activation_function' : 'relu'
 }
+
+print(conf)
 
 
 model = net(layerdimensions=conf['layer_dimensions'])
@@ -58,7 +66,7 @@ loss_list_test  = []
 accuracy_train  = []
 accuracy_test   = []
 
-for i in range(2):
+for i in range(conf['epochs']):
 
 	total_correct_train = 0
 
@@ -102,21 +110,32 @@ for i in range(2):
 print('Training completed')
 print('-'*50)
 print(f'Train loss: {round(loss, 2)}')
-print(f'Train accuracy: {round((total_correct_train/len(X))*100, 2)}%\n')
+print(f'Train accuracy: {round((total_correct_train/len(X))*100, 2)} % \n')
 print(f'Test loss: {round(loss_test, 2)}')
-print(f'Train accuracy: {round(total_correct_test/len(X_test)*100, 2)}%\n')
+print(f'Train accuracy: {round(total_correct_test/len(X_test)*100, 2)} % \n')
 
 
-fig = plt.figure(1)
+if options.graph:
 
-ax1 = fig.add_subplot(221)
-ax2 = fig.add_subplot(222)
+	fig = plt.figure(1)
+	
+	ax1 = fig.add_subplot(221)
+	ax2 = fig.add_subplot(222)
+	
+	ax1.set_title('Accuracy vs Epochs')
+	ax1.set_xlabel('Epochs')
+	ax1.set_ylabel('Accuracy')
 
-ax1.plot(accuracy_train, 'b')
-ax1.plot(accuracy_test, 'r')
+	ax2.set_title('Losss vs Epochs')
+	ax2.set_xlabel('Epochs')
+	ax2.set_ylabel('Loss')
 
-ax2.plot(loss_list_train, 'b')
-ax2.plot(loss_list_test, 'r')
-
-
-plt.show()
+	ax1.plot(accuracy_train, 'b')
+	ax1.plot(accuracy_test, 'r')
+	
+	ax2.plot(loss_list_train, 'b')
+	ax2.plot(loss_list_test, 'r')
+	
+	
+	plt.show()
+	
