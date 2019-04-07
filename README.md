@@ -10,8 +10,9 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to run the software and how to install them
 
 ```
-Python 3.*
-Numpy
+python 3.*
+numpy
+matplotlib
 ```
 
 ### Installing
