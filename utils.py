@@ -18,12 +18,3 @@ def one_hot_encode(vec):
 	one_hot[vec, np.arange(length)] = 1	
 	
 	return one_hot
-
-    #Y_tilde[Y, np.arange(m)] = 1
-    #return Y_tilde
-	
-
-
-
-
-#one_hot_encode(test)
