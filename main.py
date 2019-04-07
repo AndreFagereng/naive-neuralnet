@@ -43,13 +43,21 @@ conf = {
 	'activation_function' : 'relu'
 }
 
-print(conf)
-
 
 model = net(layerdimensions=conf['layer_dimensions'])
 
 X, y, X_test, y_test = load_mnist('data_mnist')
 b = len(X) // conf['batch_size']
+
+
+print('\nModel')
+print('-'*50)
+print('Layer dimentions: {}'.format(conf['layer_dimensions']))
+print('Learning rate: {}'.format(conf['learning_rate']))
+print('Epochs: {}'.format(conf['epochs']))
+print('Batch size: {}\n'.format(conf['batch_size']))
+print('-'*50)
+
 
 print('One hot encoding target values..\n')
 y      = one_hot_encode(y)
@@ -59,6 +67,7 @@ print('Scaling pixel data..\n')
 X      = X/255
 X_test = X_test/255
 
+print('\n'*5)
 print('Starting training..\n')
 
 loss_list_train = []

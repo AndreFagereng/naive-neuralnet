@@ -101,9 +101,7 @@ class net:
 
 		#### Last layer ####
 		# Weights
-    
 		jZ_L = (Y_predicted - Y_target)
-		
 		d_w  = np.dot(activations['A_' + str(l-2)], jZ_L.T)
 		d_w  = d_w/m
 		grad_params['grad_W_'+str(l-1)] = d_w
@@ -111,6 +109,9 @@ class net:
 		# Biases
 		grad_params['grad_b_'+str(l-1)] = (np.dot(jZ_L, np.ones((m,1)))/m)
 
+		#for key,val in activations.items():
+		#	print(key,': ',val.shape)
+		#print('l:' , l)
 		for i in range(l-1, 1, -1):
 
 			# Weights
